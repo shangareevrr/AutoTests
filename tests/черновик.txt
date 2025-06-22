@@ -1,0 +1,20 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+import time
+import os
+
+def test_login_valid():
+    driver_path = os.path.join(os.path.dirname(__file__), '..', 'chromedriver.exe')
+    service = Service(driver_path)
+    driver = webdriver.Chrome(service=service)
+
+    driver.get("http://158.160.87.146:5000/login")
+    driver.find_element(By.NAME, "login").send_keys("admin")
+    driver.find_element(By.NAME, "password").send_keys("admin")
+    driver.find_element(By.XPATH, "//button[@type='submit']").click()
+    time.sleep(1)
+    assert "Список пользователей" in driver.page_source
+    driver.quit()
+
+    
